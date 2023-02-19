@@ -2,28 +2,28 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
-	"time"
 )
 
-func checkUsername(username string) {
+func CheckUsername(username string) {
 	db, _ := sql.Open("sqlite3", "./uses.db")
 	user := db.QueryRow("select username from users where username= ?", username)
 	temp := ""
-	user.Scan(&temp)
+	err := user.Scan(&temp)
+	catch(err)
 	if temp != "" {
 		log.Println("Username is registered")
 		return
 	} else {
 		log.Printf("Username %v is not registered.", username)
 	}
+	return
 }
 
-func checkPassword(w http.ResponseWriter, r *http.Request, password string) {
+func CheckPassword(w http.ResponseWriter, r *http.Request, password string) {
 	db, _ := sql.Open("sqlite3", "./uses.db")
 	var hashed string
 	err := db.QueryRow("select password from users where username=?",
@@ -35,9 +35,7 @@ func checkPassword(w http.ResponseWriter, r *http.Request, password string) {
 		if encryptPass != nil {
 			log.Println("not valid")
 		} else {
-			expires := time.Now().Add(time.Minute * 5)
-			_ = fmt.Sprintf("Login expires in: %v minutes\n", expires)
-			cookie := http.Cookie{Name: "loggedIn", Value: "true", Path: "/", Expires: expires}
+			cookie := http.Cookie{Name: "username", Value: r.FormValue("user"), Path: "/"}
 			http.SetCookie(w, &cookie)
 			log.Println("Pass is registered")
 		}

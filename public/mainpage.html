@@ -2,11 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Booking System | Lily G</title>
+    <title>Hey {{.Username}}, you're booking!</title>
 </head>
+
 <body>
 <div class="wrapper">
-    <h1>Hello, {{ User }}</h1>
+    <div class="navbar">
+    <a class="settings" href="/account/settings/" style="float: right">{{ .Username }}</a>
+	    <a href="/book/new/">Book something new!</a>
+	    <a href="/book/create/">Create a new listing to be booked!</a>
+    </div>
+	<div class="bookWrap">
+		<div class="booking1">
+			<h1>{{.Title1}}</h1>
+			<p>{{.Desc1}}</p>
+		</div>
+		<div class="booking2">
+			<h1>{{.Title2}}</h1>
+			<p>{{.Desc2}}</p>
+		</div>
+		<div class="booking3">
+			<h1>{{.Title3}}</h1>
+			<p>{{.Desc3}}</p>
+		</div>
+	</div>
 </div>
 </body>
 </html>
+
+
+<style>
+	.booking1, .booking2, .booking3 {
+		border: blue 2px solid;
+		border-radius: 5000px;
+		width: 80%;
+		padding: 12px;
+	}
+	.bookWrap {
+		padding-top: 100px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	body {
+		height: 600vh;
+		background-color: dimgrey;
+	}
+    .navbar * {
+        float: left;
+        font-family: ".AppleSystemUIFont", sans-serif;
+        font-weight: normal;
+	    padding: 10px 50px;
+	    color: white;
+    }
+    .navbar a:hover {
+	    background-color: #0c0c0c;
+	    border-color: #6959dc;
+	    
+    }
+    .navbar a {
+	    border: 3px solid darkslateblue;
+	    border-radius: 15px;
+	    text-decoration: none;
+	    font-size: 17px;
+	    transition: 0.5s;
+    }
+    .navbar {
+	    z-index: 100;
+	    position: fixed;
+	    width: 100%;
+        overflow: auto;
+	    background-color: #555;
+	    border-radius: 10px;
+    }
+    @media screen and (max-width: 500px) {
+	    .navbar a {
+		    float: none;
+		    display: block;
+	    }
+    }
+</style>

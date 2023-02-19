@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>List A Booking</title>
+</head>
+<body>
+<div class="wrapper">
+	<form action="/book/new/create/" method="post">
+	<h1>Create a new booking</h1>
+	<a class="list-title-text">Listing title: </a><input name="list-title" type="text"><br><br><br>
+	<a class="list-desc-text">Listing description: </a><br> <textarea name="list-desc" class="list-desc" rows="8" cols="60"></textarea>
+	<input type="submit" value="Submit" class="submitBtn">
+	</form>
+</div>
+</body>
+</html>
+
+
+<style>
+	.list-desc {
+		resize: none;
+	}
+	.list-title-text, .list-desc-text, .submitBtn {
+		font-family: "Papyrus", serif;
+		padding: 2px;
+		font-size: 23px;
+		letter-spacing: -0.04em;
+	}
+	.submitBtn {
+		position: absolute;
+		scale: 100%;
+		width: 35%;
+		bottom: 46vh;
+		left: 32.5vw;
+	}
+	.wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>
