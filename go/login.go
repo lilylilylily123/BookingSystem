@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func CheckUsername(username string) {
+func CheckUsername(w http.ResponseWriter, r *http.Request, username string) {
 	db, _ := sql.Open("sqlite3", "./uses.db")
 	user := db.QueryRow("select username from users where username= ?", username)
 	temp := ""
@@ -19,6 +19,7 @@ func CheckUsername(username string) {
 		return
 	} else {
 		log.Printf("Username %v is not registered.", username)
+		http.ServeFile(w, r, "./public/uhoh.html")
 	}
 	return
 }
@@ -30,10 +31,12 @@ func CheckPassword(w http.ResponseWriter, r *http.Request, password string) {
 		r.FormValue("user")).Scan(&hashed)
 	if err != nil {
 		log.Println("Password not registered")
+		http.ServeFile(w, r, "./public/uhoh.html")
 	} else {
 		encryptPass := bcrypt.CompareHashAndPassword([]byte(hashed), []byte(password))
 		if encryptPass != nil {
 			log.Println("not valid")
+			http.ServeFile(w, r, "./public/uhoh.html")
 		} else {
 			cookie := http.Cookie{Name: "username", Value: r.FormValue("user"), Path: "/"}
 			http.SetCookie(w, &cookie)

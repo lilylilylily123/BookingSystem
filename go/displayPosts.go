@@ -1,29 +1,27 @@
 package main
 
 import (
+	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
-	"html/template"
-	"net/http"
 )
 
-//type Post struct {
-//	Username string
-//	Email    string
-//	Title1   string
-//	Desc1    string
-//	Title2   string
-//	Desc2    string
-//	Title3   string
-//	Desc3    string
-//}
+type allPost struct {
+	Title  string
+	Desc   string
+	Id     int
+	Author string
+}
 
-func displayPosts(w http.ResponseWriter) {
-	t1, d1 := getPost1()
-	t2, d2 := getPost2()
-	t3, d3 := getPost3()
-	p := Post{Title1: t1, Desc1: d1, Title2: t2, Desc2: d2, Title3: t3, Desc3: d3}
-	tmp, err := template.ParseFiles("./public/mainpage.html")
+func displayAllPosts() {
+	db, err := sql.Open("sqlite3", "./uses.db")
 	catch(err)
-	err = tmp.Execute(w, p)
+	all := []allPost{}
+	scan, err := db.Query("SELECT * from posts")
 	catch(err)
+	for scan.Next() {
+		var p allPost
+		err := scan.Scan(&p.Title, &p.Desc, &p.Id, &p.Author)
+		catch(err)
+		all = append(all, p)
+	}
 }
