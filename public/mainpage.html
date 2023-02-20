@@ -9,19 +9,22 @@
 <div class="wrapper">
     <div class="navbar">
     <a class="settings" href="/account/settings/" style="float: right">{{ .Username }}</a>
-	    <a href="/book/new/">Book something new!</a>
-	    <a href="/book/create/">Create a new listing to be booked!</a>
+	    <a href="/display/">Book something new!</a>
+	    <a href="/book/new/">Create a new listing to be booked!</a>
     </div>
 	<div class="bookWrap">
 		<div class="booking1">
+			<h2>{{.Auth1}}</h2>
 			<h1>{{.Title1}}</h1>
 			<p>{{.Desc1}}</p>
 		</div>
 		<div class="booking2">
+			<h2>{{.Auth2}}</h2>
 			<h1>{{.Title2}}</h1>
 			<p>{{.Desc2}}</p>
 		</div>
 		<div class="booking3">
+			<h2>{{.Auth3}}</h2>
 			<h1>{{.Title3}}</h1>
 			<p>{{.Desc3}}</p>
 		</div>
@@ -34,9 +37,26 @@
 <style>
 	.booking1, .booking2, .booking3 {
 		border: blue 2px solid;
-		border-radius: 5000px;
+		border-radius: 45px;
+		margin-left: 10px;
 		width: 80%;
-		padding: 12px;
+		padding: 40px;
+	}
+	h2 {
+		font-family: "Andale Mono", monospace;
+		color: black;
+		font-weight: bolder;
+		font-size: 24px;
+	}
+	h1 {
+		text-transform: capitalize;
+		font-family: "Verdana", sans-serif;
+		font-weight: normal;
+	}
+	p {
+		font-size: 18px;
+		font-weight: lighter;
+		font-family: "Times New", sans-serif;
 	}
 	.bookWrap {
 		padding-top: 100px;

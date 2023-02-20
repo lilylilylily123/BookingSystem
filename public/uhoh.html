@@ -1,10 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+	<meta charset="UTF-8">
+	<title>Uh oh!</title>
 </head>
 <body>
-$END$
+<a class="login" href="/login/">Login</a>
+<a class="signup" href="/signup/">Signup</a>
 </body>
 </html>
+<script>
+	window.addEventListener('DOMContentLoaded', () => {
+		window.alert("Uh oh! You don't seem to be logged in. Please log in.")
+	});
+</script>
+<style>
+	.login, .signup {
+		display: flex;
+		overflow: hidden;
+		justify-content: center;
+		align-items: center;
+		margin-top: 200px;
+		font-weight: bolder;
+		font-size: 50px;
+		color: black;
+		text-decoration: blue underline;
+		transition: 0.5s;
+		padding: 10px;
+	}
+	.login:hover, .signup:hover {
+		letter-spacing: 5px;
+		color: black;
+		background-color: #474781;
+		border-radius: 100px;
+	}
+	body {
+		background-color: darkcyan;
+	}
+</style>
