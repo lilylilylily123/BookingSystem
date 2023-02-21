@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
@@ -100,8 +99,9 @@ func sendPost(w http.ResponseWriter, r *http.Request) {
 			err := scan.Scan(&id, &username)
 			catch(err)
 		}
-		fmt.Println(id)
+		//fmt.Println(id)
 		create_post(r.FormValue("list-title"), r.FormValue("list-desc"), id, username)
+		http.Redirect(w, r, "/mainpage/", 302)
 	}
 }
 func serveCreatePost(w http.ResponseWriter, r *http.Request) {
@@ -127,7 +127,30 @@ func servePosts(w http.ResponseWriter, r *http.Request) {
 	err = tmp.Execute(w, all)
 	catch(err)
 }
+func serveAcnt(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie("username")
+	if err != nil {
+		switch {
+		case errors.Is(err, http.ErrNoCookie):
+			http.ServeFile(w, r, "./public/uhoh.html")
+		default:
+			log.Println(err)
+			http.Error(w, "server error", http.StatusInternalServerError)
+		}
+	} else if err == nil {
+		db, err := sql.Open("sqlite3", "./uses.db")
+		catch(err)
+		scan, err := db.Query("SELECT username, email from users where username=?", c.Value)
+		var u, e string
+		for scan.Next() {
+			err := scan.Scan(&u, &e)
+			catch(err)
+		}
+		displayAcnt(w, u, e)
+	}
+}
 func main() {
+	http.HandleFunc("/account/settings/", serveAcnt)
 	http.HandleFunc("/display/", servePosts)
 	http.HandleFunc("/book/new/", serveCreatePost)
 	http.HandleFunc("/book/new/create/", sendPost)
